@@ -16,7 +16,8 @@ func _process(delta: float) -> void:
 	attack()
 	
 func attack():
-	if Input.is_action_just_pressed("LeftClick"):
+	var cost: int = 8
+	if Input.is_action_just_pressed("LeftClick") and Globals.energy >= cost:
 		var facing: Vector2 = Vector2.ZERO
 		if $o.scale.x == -1:
 			facing = Vector2.LEFT
@@ -24,6 +25,7 @@ func attack():
 			facing = Vector2.RIGHT
 		playerMagic.emit(facing, $"o/wand/tip of wand".global_position)
 		wand.play("flick")
+		Globals.energy -= cost
 	
 func movement(delta: float):
 	# send the player's position to the Global script so that enemies are able to know where the player is 
@@ -66,3 +68,9 @@ func movement(delta: float):
 func takeDamage(dmg: int):
 	Globals.health -= dmg
 	print("ouch " + str(Globals.health))
+
+func _on_energy_regeneration_timeout() -> void:
+	if Globals.energy < 100:
+		Globals.energy += 2
+	else:
+		Globals.energy = 100

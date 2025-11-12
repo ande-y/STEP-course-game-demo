@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bboljaj576pvr"]
+[gd_scene load_steps=6 format=3 uid="uid://bboljaj576pvr"]
 
 [ext_resource type="Texture2D" uid="uid://dtvud272o0ghg" path="res://graphics/misc/heart icon.png" id="1_cjspa"]
+[ext_resource type="Script" path="res://scripts/friends/user_interface.gd" id="1_eiefc"]
 [ext_resource type="Texture2D" uid="uid://lf0rqjk7lhfe" path="res://graphics/misc/bar back.png" id="2_ptd3p"]
 [ext_resource type="Texture2D" uid="uid://fbw2qqing37s" path="res://graphics/misc/bar.png" id="3_77r1l"]
 [ext_resource type="Texture2D" uid="uid://dy1anxtp3eihx" path="res://graphics/misc/magic icon.png" id="4_su7nj"]
 
 [node name="user interface" type="CanvasLayer"]
+script = ExtResource("1_eiefc")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 2

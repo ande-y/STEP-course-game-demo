@@ -150,3 +150,9 @@ autoplay = "default"
 position = Vector2(8, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="energy regeneration" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="energy regeneration" to="." method="_on_energy_regeneration_timeout"]

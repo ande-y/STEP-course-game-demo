@@ -1,13 +1,14 @@
-[gd_scene load_steps=12 format=4 uid="uid://b4vtgeoqikdjg"]
+[gd_scene load_steps=13 format=4 uid="uid://b4vtgeoqikdjg"]
 
 [ext_resource type="Script" path="res://scripts/levels/level.gd" id="1_h15ad"]
 [ext_resource type="Texture2D" uid="uid://1r2s6bnn4amo" path="res://graphics/environment/tileset solid.png" id="1_w38tw"]
 [ext_resource type="Texture2D" uid="uid://cpyopxrlc3mj6" path="res://icon.svg" id="2_qhr1p"]
 [ext_resource type="PackedScene" uid="uid://dgxydgte774v0" path="res://scenes/friends/player.tscn" id="3_i7fp6"]
-[ext_resource type="PackedScene" uid="uid://bx0iv0478lmef" path="res://scenes/enemies/skeleton.tscn" id="4_oeylw"]
+[ext_resource type="PackedScene" uid="uid://4dsugdrdr6da" path="res://scenes/enemies/skeleton.tscn" id="4_oeylw"]
 [ext_resource type="Texture2D" uid="uid://bihvxslmthmch" path="res://graphics/environment/forest BG.png" id="4_wlx3s"]
 [ext_resource type="PackedScene" uid="uid://csq6qg83o83cr" path="res://scenes/projectile/projectile.tscn" id="5_3f1n4"]
 [ext_resource type="PackedScene" uid="uid://bboljaj576pvr" path="res://scenes/friends/user_interface.tscn" id="6_no4af"]
+[ext_resource type="PackedScene" uid="uid://pyfaed8oy6k3" path="res://scenes/enemies/slime.tscn" id="9_e2itl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m7uf8"]
 texture = ExtResource("1_w38tw")
@@ -52,6 +53,8 @@ tile_set = SubResource("TileSet_hnavi")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(575, 502)
 scale = Vector2(12.64, 1)
+collision_layer = 128
+collision_mask = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 texture = ExtResource("2_qhr1p")
@@ -69,10 +72,13 @@ texture = ExtResource("4_wlx3s")
 
 [node name="user interface" parent="player" instance=ExtResource("6_no4af")]
 
-[node name="skeleton" parent="." instance=ExtResource("4_oeylw")]
-position = Vector2(745, 368)
-
 [node name="projectile" parent="." instance=ExtResource("5_3f1n4")]
 position = Vector2(449, 245)
+
+[node name="skeleton" parent="." instance=ExtResource("4_oeylw")]
+position = Vector2(789, 382)
+
+[node name="slime" parent="." instance=ExtResource("9_e2itl")]
+position = Vector2(-107, 410)
 
 [connection signal="playerMagic" from="player" to="." method="_on_player_player_magic"]
