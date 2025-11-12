@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=4 uid="uid://b4vtgeoqikdjg"]
+
+[ext_resource type="Texture2D" uid="uid://cpyopxrlc3mj6" path="res://icon.svg" id="1_c476l"]
+[ext_resource type="Texture2D" uid="uid://1r2s6bnn4amo" path="res://graphics/environment/tileset solid.png" id="1_cxp3y"]
+[ext_resource type="PackedScene" uid="uid://dgxydgte774v0" path="res://scenes/player.tscn" id="2_kn41c"]
+[ext_resource type="PackedScene" uid="uid://bx0iv0478lmef" path="res://scenes/skeleton.tscn" id="3_vjujo"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m7uf8"]
+texture = ExtResource("1_cxp3y")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -3.86929, 32, -32, 4.36535)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, -32, -32, -32, 32, 3.86929, 32, 32, 4.36535)
+0:1/0 = 0
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:1/0 = 0
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:3/0 = 0
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hnavi"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_m7uf8")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cgx4e"]
+size = Vector2(125, 122)
+
+[node name="level" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAADAAUAAAABAAAAAAAEAAUAAAABAAAAAAAFAAUAAAABAAAAAAAGAAUAAAABAAAAAAACAAUAAAABAAAAAAABAAUAAAAAAAAAAAAHAAUAAAACAAAAAAA=")
+tile_set = SubResource("TileSet_hnavi")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(575, 502)
+scale = Vector2(12.64, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("1_c476l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -1)
+shape = SubResource("RectangleShape2D_cgx4e")
+
+[node name="player" parent="." instance=ExtResource("2_kn41c")]
+position = Vector2(260, 241)
+
+[node name="skeleton" parent="." instance=ExtResource("3_vjujo")]
+position = Vector2(745, 368)
