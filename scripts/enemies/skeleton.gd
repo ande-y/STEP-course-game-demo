@@ -4,9 +4,14 @@ extends CharacterBody2D
 # import a node as a variable so that we dont have to write the node tree path over & over agian
 @onready var sprite: AnimatedSprite2D = $o/sprite
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var speed: int = 250
+var speed: int = 150
+var health: int = 50
+var damage: int = 15
 
 func _process(delta: float) -> void:
+	movement(delta)
+	
+func movement(delta: float):
 	# get what direction the player is relative to the skeleton 
 	var direction = Globals.playerPosition - position
 	
@@ -35,3 +40,12 @@ func _process(delta: float) -> void:
 		$o.scale.x = 1
 	elif velocity.x < 0:
 		$o.scale.x = -1
+
+func takeDamage(dmg: int):
+	health -= dmg
+	if health <= 0:
+		queue_free()
+
+func _on_damage_zone_body_entered(body: Node2D) -> void:
+	if "takeDamage" in body:
+		body.takeDamage(damage)

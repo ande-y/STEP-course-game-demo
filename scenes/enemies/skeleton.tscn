@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bx0iv0478lmef"]
+[gd_scene load_steps=14 format=3 uid="uid://bx0iv0478lmef"]
 
-[ext_resource type="Script" path="res://scripts/skeleton.gd" id="1_ebpjm"]
+[ext_resource type="Script" path="res://scripts/enemies/skeleton.gd" id="1_ebpjm"]
 [ext_resource type="Texture2D" uid="uid://c1l6csmgclf17" path="res://graphics/enemy/skeleton.png" id="2_kpnem"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mclhk"]
@@ -90,7 +90,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_73rxm"]
+size = Vector2(34, 74)
+
 [node name="skeleton" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 169
 script = ExtResource("1_ebpjm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -102,3 +107,12 @@ shape = SubResource("RectangleShape2D_mclhk")
 [node name="sprite" type="AnimatedSprite2D" parent="o"]
 sprite_frames = SubResource("SpriteFrames_e33jc")
 autoplay = "default"
+
+[node name="damage zone" type="Area2D" parent="o"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o/damage zone"]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_73rxm")
+debug_color = Color(0.999123, 0, 0.122925, 0.42)
+
+[connection signal="body_entered" from="o/damage zone" to="." method="_on_damage_zone_body_entered"]

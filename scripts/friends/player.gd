@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
+signal playerMagic
+
 @onready var sprite: AnimatedSprite2D = $o/sprite
+@onready var wand: AnimatedSprite2D = $o/wand
+
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 const speed: int = 400
 const jump: int = -500
@@ -8,6 +12,20 @@ const jump: int = -500
 var canJump: bool = true
 
 func _process(delta: float) -> void:
+	movement(delta)
+	attack()
+	
+func attack():
+	if Input.is_action_just_pressed("LeftClick"):
+		var facing: Vector2 = Vector2.ZERO
+		if $o.scale.x == -1:
+			facing = Vector2.LEFT
+		else:
+			facing = Vector2.RIGHT
+		playerMagic.emit(facing, $"o/wand/tip of wand".global_position)
+		wand.play("flick")
+	
+func movement(delta: float):
 	# send the player's position to the Global script so that enemies are able to know where the player is 
 	Globals.playerPosition = position
 	
@@ -44,9 +62,7 @@ func _process(delta: float) -> void:
 		$o.scale.x = -1
 	elif velocity.x > 0:
 		$o.scale.x = 1
-	
-	
-	
-	
-	
-	
+
+func takeDamage(dmg: int):
+	Globals.health -= dmg
+	print("ouch " + str(Globals.health))

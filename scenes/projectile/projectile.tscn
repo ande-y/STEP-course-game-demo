@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://csq6qg83o83cr"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_64iug"]
+[ext_resource type="Texture2D" uid="uid://caboymtpms5r1" path="res://graphics/misc/magic.png" id="2_465t1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jvqvm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3oyb"]
+atlas = ExtResource("2_465t1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gys2m"]
+atlas = ExtResource("2_465t1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g0gyb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3oyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gys2m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="projectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 228
+script = ExtResource("1_64iug")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jvqvm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_g0gyb")
+autoplay = "default"
+frame = 1
+frame_progress = 0.0207734
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
