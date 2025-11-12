@@ -1,0 +1,153 @@
+[gd_scene load_steps=17 format=3 uid="uid://biwgqtidjf2sv"]
+
+[ext_resource type="PackedScene" uid="uid://vlnatobsael1" path="res://scenes/enemies/turret.tscn" id="1_4qy1r"]
+[ext_resource type="Texture2D" uid="uid://bhaotmocl3ghj" path="res://graphics/enemy/wood turret.png" id="2_3jo2n"]
+[ext_resource type="Script" path="res://scripts/enemies/wooden_turret.gd" id="2_saner"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_442sp"]
+size = Vector2(46.5, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xuq0"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lf7ck"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_roujh"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dn1si"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skexn"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjcpn"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hyfee"]
+atlas = ExtResource("2_3jo2n")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u5nyj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xuq0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lf7ck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_roujh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dn1si")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skexn")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjcpn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hyfee")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h8iy7"]
+radius = 225.0
+height = 1120.0
+
+[sub_resource type="Animation" id="Animation_st74s"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"death"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_7632d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a16fe"]
+_data = {
+"RESET": SubResource("Animation_7632d"),
+"death": SubResource("Animation_st74s")
+}
+
+[node name="wooden turret" instance=ExtResource("1_4qy1r")]
+script = ExtResource("2_saner")
+
+[node name="hitbox" parent="." index="0"]
+shape = SubResource("RectangleShape2D_442sp")
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_u5nyj")
+autoplay = "default"
+
+[node name="left gun" parent="." index="2"]
+position = Vector2(-32, 0)
+
+[node name="right gun" parent="." index="3"]
+position = Vector2(32, 0)
+
+[node name="CollisionShape2D" parent="aggression zone" index="0"]
+shape = SubResource("CapsuleShape2D_h8iy7")
+
+[node name="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_a16fe")
+}

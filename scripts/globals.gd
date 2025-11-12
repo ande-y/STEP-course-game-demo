@@ -14,4 +14,9 @@ var energy: int = 100:
 		energy = value
 		updateUI.emit()
 		
+var coins: int = 0:
+	set(value):
+		coins = value
+		updateUI.emit()
+		
 var playerPosition: Vector2

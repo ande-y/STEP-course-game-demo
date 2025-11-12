@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://b38y8mparrqb2"]
+
+[ext_resource type="Script" path="res://scripts/items/item.gd" id="1_hkxqb"]
+
+[node name="item" type="CharacterBody2D"]
+collision_layer = 256
+collision_mask = 160
+script = ExtResource("1_hkxqb")
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+
+[node name="collection area" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collection area"]
+debug_color = Color(0.704967, 0.270011, 1, 0.42)
+
+[node name="lifespan" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[connection signal="body_entered" from="collection area" to="." method="_on_collection_area_body_entered"]

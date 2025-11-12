@@ -10,6 +10,7 @@ const speed: int = 400
 const jump: int = -500
 
 var canJump: bool = true
+var knockback: int = 0
 
 func _process(delta: float) -> void:
 	movement(delta)
@@ -34,7 +35,10 @@ func movement(delta: float):
 	
 	# code for moving character
 	var direction = Input.get_axis("left", "right")
-	velocity.x = speed * direction
+	velocity.x = speed * direction + knockback
+	
+	if knockback != 0:
+		knockback = (int)(knockback * 0.98)
 	
 	if !is_on_floor():
 		velocity.y += gravity * delta
@@ -51,7 +55,9 @@ func movement(delta: float):
 
 func movingAnimation():
 	# coding for animating sprites
-	if velocity.y > 0:
+	if knockback != 0:
+		sprite.play("hurt")
+	elif velocity.y > 0:
 		sprite.play("falling")
 	elif velocity.y < 0:
 		sprite.play("jumping")
@@ -62,13 +68,15 @@ func movingAnimation():
 	
 	# due to a bug in Godot, scale doesn't work properly on the root node
 	# must parent everything we want to flip to node and flipping that node instead
-	if velocity.x < 0:
-		$o.scale.x = -1
-	elif velocity.x > 0:
-		$o.scale.x = 1
+	if knockback == 0:
+		if velocity.x < 0:
+			$o.scale.x = -1
+		elif velocity.x > 0:
+			$o.scale.x = 1
 
-func takeDamage(dmg: int):
+func takeDamage(dmg: int, dir: Vector2):
 	Globals.health -= dmg
+	knockback = 300 * dir.x
 	print("ouch " + str(Globals.health))
 
 func _on_energy_regeneration_timeout() -> void:

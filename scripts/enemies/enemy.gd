@@ -5,6 +5,7 @@ class_name enemy
 @onready var sprite: AnimatedSprite2D = $o/sprite
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active: bool = false
+var knockback: int = 0
 
 var speed: int
 var health: int
@@ -28,7 +29,10 @@ func movement():
 		direction.x /= abs(direction.x)
 	else:
 		direction.x = 0
-	velocity.x = speed * direction.x
+	velocity.x = speed * direction.x + knockback
+	
+	if knockback != 0:
+		knockback = (int)(knockback * .98)
 		
 	move_and_slide()
 	
@@ -39,19 +43,22 @@ func movingAnimation():
 	elif velocity.y < 0:
 		sprite.play("jumping")
 	elif health > 0:
-		if active and velocity.x != 0:
+		if knockback != 0:
+			sprite.play("hurt")
+		elif active and velocity.x != 0:
 			sprite.play("moving")
 		else:
 			sprite.play("default")
-
 	
-	if velocity.x > 0:
-		$o.scale.x = 1
-	elif velocity.x < 0:
-		$o.scale.x = -1
+	if knockback == 0:
+		if velocity.x > 0:
+			$o.scale.x = 1
+		elif velocity.x < 0:
+			$o.scale.x = -1
 
-func takeDamage(dmg: int):
+func takeDamage(dmg: int, dir: Vector2):
 	health -= dmg
+	knockback = 300 * dir.x
 	if health <= 0:
 		set_collision_layer_value(3, false)
 		set_collision_mask_value(1, false)
@@ -59,8 +66,10 @@ func takeDamage(dmg: int):
 		$AnimationPlayer.play("death")
 
 func _on_damage_zone_body_entered(body: Node2D) -> void:
+	var direction = Globals.playerPosition - position
+	direction /= abs(direction)
 	if "takeDamage" in body:
-		body.takeDamage(damage)
+		body.takeDamage(damage, direction)
 
 func _on_aggression_zone_body_entered(_body: Node2D) -> void:
 	active = true
