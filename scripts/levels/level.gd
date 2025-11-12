@@ -1,4 +1,5 @@
 extends Node2D
+class_name level
 
 const BRONZE_COIN = preload("res://scenes/items/bronze_coin.tscn")
 const SILVER_COIN = preload("res://scenes/items/silver_coin.tscn")
@@ -43,3 +44,5 @@ func summonLoot(pos: Vector2, val: int) -> void:
 		obj.position = pos
 		call_deferred("add_child", obj)
 	
+func _on_audio_stream_player_finished() -> void:
+	$AudioStreamPlayer.play()

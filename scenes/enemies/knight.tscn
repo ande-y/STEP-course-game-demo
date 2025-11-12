@@ -1,11 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://gcgwytfd31p4"]
+[gd_scene load_steps=34 format=3 uid="uid://gcgwytfd31p4"]
 
 [ext_resource type="PackedScene" uid="uid://bx0iv0478lmef" path="res://scenes/enemies/enemy.tscn" id="1_lo6n1"]
 [ext_resource type="Script" path="res://scripts/enemies/knight.gd" id="2_6t525"]
 [ext_resource type="Texture2D" uid="uid://dndycarabltyh" path="res://graphics/enemy/knight.png" id="3_vx85o"]
+[ext_resource type="Texture2D" uid="uid://dvah0km6e1olk" path="res://graphics/weapons/axe.png" id="4_r4n3m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30e34"]
 size = Vector2(40, 79)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osf6m"]
+atlas = ExtResource("3_vx85o")
+region = Rect2(0, 96, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_on58g"]
 atlas = ExtResource("3_vx85o")
@@ -57,6 +62,14 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3vo11"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osf6m")
+}],
+"loop": true,
+"name": &"attacking",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_on58g")
@@ -125,11 +138,69 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eseel"]
-size = Vector2(46, 93.5)
+size = Vector2(100, 108.75)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gqj6f"]
 radius = 235.0
 height = 930.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1t4nv"]
+size = Vector2(92, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dyo4"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5gos"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhkr3"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1trvr"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sqxu"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcsdk"]
+atlas = ExtResource("4_r4n3m")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4csfg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dyo4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5gos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhkr3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1trvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sqxu")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcsdk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="Animation" id="Animation_p8uwk"]
 length = 0.001
@@ -156,6 +227,47 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("o/damage zone/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_tbk15"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("o/damage zone/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.266667, 0.766667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attackFinish"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_j4b3v"]
@@ -203,6 +315,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3rbcr"]
 _data = {
 "RESET": SubResource("Animation_p8uwk"),
+"attack": SubResource("Animation_tbk15"),
 "death": SubResource("Animation_j4b3v")
 }
 
@@ -217,10 +330,20 @@ shape = SubResource("RectangleShape2D_30e34")
 sprite_frames = SubResource("SpriteFrames_3vo11")
 
 [node name="CollisionShape2D" parent="o/damage zone" index="0"]
+position = Vector2(50, -13.625)
 shape = SubResource("RectangleShape2D_eseel")
 
 [node name="CollisionShape2D" parent="o/aggression zone" index="0"]
 shape = SubResource("CapsuleShape2D_gqj6f")
+
+[node name="CollisionShape2D" parent="o/attack zone" index="0"]
+position = Vector2(36, -7)
+shape = SubResource("RectangleShape2D_1t4nv")
+
+[node name="weapon" parent="o" index="4"]
+position = Vector2(32, -20)
+sprite_frames = SubResource("SpriteFrames_4csfg")
+autoplay = "default"
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {

@@ -8,6 +8,7 @@ signal dropLoot
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active: bool = false
 var knockback: int = 0
+var attacking: bool = false
 
 var speed: int
 var health: int
@@ -26,7 +27,7 @@ func movement():
 	var direction = Globals.playerPosition - position
 	
 	# move the skeleton based on where the player is
-	if health <= 0:
+	if health <= 0 or attacking:
 		direction.x = 0
 	elif active:
 		direction.x /= abs(direction.x)
@@ -41,12 +42,14 @@ func movement():
 	
 func movingAnimation():
 	# the same as the player, the animations of the skeleton
-	if velocity.y > 0:
-		sprite.play("falling")
-	elif velocity.y < 0:
-		sprite.play("jumping")
-	elif health > 0:
-		if knockback != 0:
+	if health > 0:
+		if attacking:
+			sprite.play("attacking")
+		elif velocity.y > 0:
+			sprite.play("falling")
+		elif velocity.y < 0:
+			sprite.play("jumping")
+		elif knockback != 0:
 			sprite.play("hurt")
 		elif active and velocity.x != 0:
 			sprite.play("moving")
@@ -66,6 +69,7 @@ func takeDamage(dmg: int, dir: Vector2):
 		set_collision_layer_value(3, false)
 		set_collision_mask_value(1, false)
 		$"o/damage zone".monitoring = false
+		$o/weapon.visible = false
 		dropLoot.emit(global_position, coins)
 		$AnimationPlayer.play("death")
 
@@ -79,3 +83,15 @@ func _on_aggression_zone_body_entered(_body: Node2D) -> void:
 	active = true
 func _on_aggression_zone_body_exited(_body: Node2D) -> void:
 	active = false
+
+func _on_attack_zone_body_entered(_body: Node2D) -> void:
+	if health > 0:
+		attacking = true
+		$"o/attack zone".set_deferred("monitoring", false)
+		$o/weapon.play("attack")
+		$AnimationPlayer.play("attack")
+func attackFinish():
+	attacking = false
+	$"o/attack zone".set_deferred("monitoring", true)
+	$o/weapon.play("default")
+	

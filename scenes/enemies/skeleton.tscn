@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://4dsugdrdr6da"]
+[gd_scene load_steps=34 format=3 uid="uid://4dsugdrdr6da"]
 
 [ext_resource type="PackedScene" uid="uid://bx0iv0478lmef" path="res://scenes/enemies/enemy.tscn" id="1_3rvlj"]
 [ext_resource type="Script" path="res://scripts/enemies/skeleton.gd" id="1_ebpjm"]
 [ext_resource type="Texture2D" uid="uid://c1l6csmgclf17" path="res://graphics/enemy/skeleton.png" id="2_kpnem"]
+[ext_resource type="Texture2D" uid="uid://b2awuqbdhslok" path="res://graphics/weapons/skeleton sword.png" id="4_ywr03"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_53qrs"]
 size = Vector2(28, 68)
@@ -137,11 +138,69 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l7mhs"]
-size = Vector2(34, 75)
+size = Vector2(72.5, 89.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l6d4x"]
 radius = 159.0
 height = 704.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_he2cu"]
+size = Vector2(63, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkwc5"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfkfw"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awtip"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jn12"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqeat"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxnle"]
+atlas = ExtResource("4_ywr03")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hgir3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkwc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfkfw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awtip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6jn12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqeat")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxnle")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="Animation" id="Animation_gnvya"]
 length = 0.001
@@ -168,6 +227,35 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_h6ulk"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("o/damage zone/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.266667, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attackFinish"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_r25ig"]
@@ -215,6 +303,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_04djq"]
 _data = {
 "RESET": SubResource("Animation_gnvya"),
+"attack": SubResource("Animation_h6ulk"),
 "death": SubResource("Animation_r25ig")
 }
 
@@ -229,11 +318,24 @@ shape = SubResource("RectangleShape2D_53qrs")
 sprite_frames = SubResource("SpriteFrames_b2ijk")
 
 [node name="CollisionShape2D" parent="o/damage zone" index="0"]
-position = Vector2(0, 5.5)
+position = Vector2(36.25, -1)
 shape = SubResource("RectangleShape2D_l7mhs")
 
 [node name="CollisionShape2D" parent="o/aggression zone" index="0"]
 shape = SubResource("CapsuleShape2D_l6d4x")
+
+[node name="attack zone" parent="o" index="3"]
+position = Vector2(-1, 0)
+collision_layer = 0
+
+[node name="CollisionShape2D" parent="o/attack zone" index="0"]
+position = Vector2(31.5, 4)
+shape = SubResource("RectangleShape2D_he2cu")
+
+[node name="weapon" parent="o" index="4"]
+position = Vector2(8, -16)
+sprite_frames = SubResource("SpriteFrames_hgir3")
+autoplay = "default"
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {

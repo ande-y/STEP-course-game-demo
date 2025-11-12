@@ -21,7 +21,11 @@ func attack():
 	var cost: int = 8
 	if Input.is_action_just_pressed("LeftClick") and Globals.energy >= cost:
 		var facing: Vector2 = Vector2.ZERO
-		if $o.scale.x == -1:
+		if Input.is_action_pressed("up"):
+			facing = Vector2.UP
+		elif Input.is_action_pressed("down"):
+			facing = Vector2.DOWN
+		elif $o.scale.x == -1:
 			facing = Vector2.LEFT
 		else:
 			facing = Vector2.RIGHT
@@ -48,6 +52,7 @@ func movement(delta: float):
 	# for if you are able to jump, attention on "canJump", this limits when and how you can jump
 	if Input.is_action_just_pressed("space") and canJump:
 		velocity.y = jump
+		$AudioStreamPlayer2D.play()
 		if !is_on_floor():
 			canJump = false
 	

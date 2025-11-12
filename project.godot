@@ -10,14 +10,15 @@ config_version=5
 
 [application]
 
-config/name="demo March 15th"
-run/main_scene="res://scenes/levels/level.tscn"
+config/name="project main"
+run/main_scene="res://scenes/levels/forest_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Globals="*res://scripts/globals.gd"
+LevelTransition="*res://scenes/levels/level_transition.tscn"
 
 [global_group]
 

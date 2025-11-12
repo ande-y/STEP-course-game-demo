@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://dvw4hq2fan4lk"]
 
 [ext_resource type="PackedScene" uid="uid://b38y8mparrqb2" path="res://scenes/items/item.tscn" id="1_xgick"]
-[ext_resource type="Script" path="res://scripts/gold_coin.gd" id="2_h4uaj"]
+[ext_resource type="Script" path="res://scripts/items/gold_coin.gd" id="2_h4uaj"]
 [ext_resource type="Texture2D" uid="uid://621x512ppyj" path="res://graphics/misc/coins.png" id="2_j6w5v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xy73b"]

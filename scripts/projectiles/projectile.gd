@@ -28,4 +28,5 @@ func _on_timer_timeout() -> void:
 	
 func removeProj():
 	speed = 0
+	$AudioStreamPlayer2D.play()
 	$AnimationPlayer.play("poof")
