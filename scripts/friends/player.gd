@@ -13,6 +13,7 @@ var canJump: bool = true
 
 func _process(delta: float) -> void:
 	movement(delta)
+	movingAnimation()
 	attack()
 	
 func attack():
@@ -37,17 +38,18 @@ func movement(delta: float):
 	
 	if !is_on_floor():
 		velocity.y += gravity * delta
-		canJump = false
 	else: 
 		canJump = true
 	
 	# for if you are able to jump, attention on "canJump", this limits when and how you can jump
 	if Input.is_action_just_pressed("space") and canJump:
 		velocity.y = jump
-		canJump = false
+		if !is_on_floor():
+			canJump = false
 	
 	move_and_slide()
 
+func movingAnimation():
 	# coding for animating sprites
 	if velocity.y > 0:
 		sprite.play("falling")

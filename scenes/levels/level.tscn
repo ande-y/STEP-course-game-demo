@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://dgxydgte774v0" path="res://scenes/friends/player.tscn" id="3_i7fp6"]
 [ext_resource type="PackedScene" uid="uid://4dsugdrdr6da" path="res://scenes/enemies/skeleton.tscn" id="4_oeylw"]
 [ext_resource type="Texture2D" uid="uid://bihvxslmthmch" path="res://graphics/environment/forest BG.png" id="4_wlx3s"]
-[ext_resource type="PackedScene" uid="uid://csq6qg83o83cr" path="res://scenes/projectile/projectile.tscn" id="5_3f1n4"]
 [ext_resource type="PackedScene" uid="uid://bboljaj576pvr" path="res://scenes/friends/user_interface.tscn" id="6_no4af"]
 [ext_resource type="PackedScene" uid="uid://pyfaed8oy6k3" path="res://scenes/enemies/slime.tscn" id="9_e2itl"]
+[ext_resource type="PackedScene" uid="uid://gcgwytfd31p4" path="res://scenes/enemies/knight.tscn" id="10_jhlol"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m7uf8"]
 texture = ExtResource("1_w38tw")
@@ -72,13 +72,13 @@ texture = ExtResource("4_wlx3s")
 
 [node name="user interface" parent="player" instance=ExtResource("6_no4af")]
 
-[node name="projectile" parent="." instance=ExtResource("5_3f1n4")]
-position = Vector2(449, 245)
-
 [node name="skeleton" parent="." instance=ExtResource("4_oeylw")]
 position = Vector2(789, 382)
 
 [node name="slime" parent="." instance=ExtResource("9_e2itl")]
-position = Vector2(-107, 410)
+position = Vector2(-157, 396)
+
+[node name="knight" parent="." instance=ExtResource("10_jhlol")]
+position = Vector2(1325, 370)
 
 [connection signal="playerMagic" from="player" to="." method="_on_player_player_magic"]

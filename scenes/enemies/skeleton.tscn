@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://4dsugdrdr6da"]
+[gd_scene load_steps=24 format=3 uid="uid://4dsugdrdr6da"]
 
 [ext_resource type="PackedScene" uid="uid://bx0iv0478lmef" path="res://scenes/enemies/enemy.tscn" id="1_3rvlj"]
 [ext_resource type="Script" path="res://scripts/enemies/skeleton.gd" id="1_ebpjm"]
@@ -139,6 +139,37 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l7mhs"]
 size = Vector2(34, 75)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l6d4x"]
+radius = 159.0
+height = 704.0
+
+[sub_resource type="Animation" id="Animation_gnvya"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("o/sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("o/sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_r25ig"]
 resource_name = "death"
 length = 2.0
@@ -181,33 +212,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_gnvya"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("o/sprite:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"default"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("o/sprite:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_04djq"]
 _data = {
 "RESET": SubResource("Animation_gnvya"),
@@ -223,11 +227,13 @@ shape = SubResource("RectangleShape2D_53qrs")
 
 [node name="sprite" parent="o" index="0"]
 sprite_frames = SubResource("SpriteFrames_b2ijk")
-animation = &"default"
 
 [node name="CollisionShape2D" parent="o/damage zone" index="0"]
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_l7mhs")
+
+[node name="CollisionShape2D" parent="o/aggression zone" index="0"]
+shape = SubResource("CapsuleShape2D_l6d4x")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
