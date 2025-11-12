@@ -1,0 +1,59 @@
+[gd_scene load_steps=11 format=3 uid="uid://bw74w4v3umfg1"]
+
+[ext_resource type="PackedScene" uid="uid://b38y8mparrqb2" path="res://scenes/items/item.tscn" id="1_skwvo"]
+[ext_resource type="Script" path="res://scripts/items/silver_coin.gd" id="2_5akej"]
+[ext_resource type="Texture2D" uid="uid://621x512ppyj" path="res://graphics/misc/coins.png" id="3_0kupj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_esig7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iw5as"]
+atlas = ExtResource("3_0kupj")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhl00"]
+atlas = ExtResource("3_0kupj")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6sbt"]
+atlas = ExtResource("3_0kupj")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmkue"]
+atlas = ExtResource("3_0kupj")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_omnxe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iw5as")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhl00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6sbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmkue")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sg8xo"]
+size = Vector2(24, 24)
+
+[node name="silver coin" instance=ExtResource("1_skwvo")]
+script = ExtResource("2_5akej")
+
+[node name="hitbox" parent="." index="0"]
+shape = SubResource("RectangleShape2D_esig7")
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_omnxe")
+autoplay = "default"
+
+[node name="CollisionShape2D" parent="collection area" index="0"]
+shape = SubResource("RectangleShape2D_sg8xo")

@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name enemy
 
+signal dropLoot
+
 # import a node as a variable so that we dont have to write the node tree path over & over agian
 @onready var sprite: AnimatedSprite2D = $o/sprite
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -10,6 +12,7 @@ var knockback: int = 0
 var speed: int
 var health: int
 var damage: int
+var coins: int
 
 func _process(delta: float) -> void:
 	if !is_on_floor():
@@ -58,11 +61,12 @@ func movingAnimation():
 
 func takeDamage(dmg: int, dir: Vector2):
 	health -= dmg
-	knockback = 300 * dir.x
+	knockback = (int)(300 * dir.x)
 	if health <= 0:
 		set_collision_layer_value(3, false)
 		set_collision_mask_value(1, false)
 		$"o/damage zone".monitoring = false
+		dropLoot.emit(global_position, coins)
 		$AnimationPlayer.play("death")
 
 func _on_damage_zone_body_entered(body: Node2D) -> void:

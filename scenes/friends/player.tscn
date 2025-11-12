@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dgxydgte774v0"]
+[gd_scene load_steps=21 format=3 uid="uid://dgxydgte774v0"]
 
 [ext_resource type="Script" path="res://scripts/friends/player.gd" id="1_xrrts"]
 [ext_resource type="Texture2D" uid="uid://bqs4u3nyyonag" path="res://graphics/friends/character.png" id="2_2visi"]
@@ -139,6 +139,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfq0b"]
+size = Vector2(34, 78)
+
 [node name="player" type="CharacterBody2D"]
 collision_mask = 245
 script = ExtResource("1_xrrts")
@@ -151,7 +154,6 @@ shape = SubResource("RectangleShape2D_hhoi4")
 
 [node name="sprite" type="AnimatedSprite2D" parent="o"]
 sprite_frames = SubResource("SpriteFrames_edc7d")
-animation = &"hurt"
 
 [node name="wand" type="AnimatedSprite2D" parent="o"]
 position = Vector2(34, 8)
@@ -162,10 +164,20 @@ autoplay = "default"
 [node name="tip of wand" type="Marker2D" parent="o/wand"]
 position = Vector2(8, 0)
 
+[node name="hazard detector" type="Area2D" parent="o"]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o/hazard detector"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_lfq0b")
+debug_color = Color(0, 0.63, 0.504, 0.156863)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="energy regeneration" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
 
+[connection signal="body_shape_entered" from="o/hazard detector" to="." method="_on_hazard_detector_body_shape_entered"]
 [connection signal="timeout" from="energy regeneration" to="." method="_on_energy_regeneration_timeout"]

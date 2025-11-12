@@ -10,6 +10,10 @@ func _process(delta: float) -> void:
 		velocity.y += gravity * delta
 	move_and_slide()
 
-func _on_collection_area_body_entered(body: Node2D) -> void:
+func _on_collection_area_body_entered(_body: Node2D) -> void:
+	print("got a item")
 	Globals.coins += value
 	queue_free()
+
+func _on_lifespan_timeout() -> void:
+	$AnimationPlayer.play("vanish")

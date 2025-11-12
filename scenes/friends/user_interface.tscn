@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bboljaj576pvr"]
+[gd_scene load_steps=8 format=3 uid="uid://bboljaj576pvr"]
 
 [ext_resource type="Texture2D" uid="uid://dtvud272o0ghg" path="res://graphics/misc/heart icon.png" id="1_cjspa"]
 [ext_resource type="Script" path="res://scripts/friends/user_interface.gd" id="1_eiefc"]
 [ext_resource type="Texture2D" uid="uid://lf0rqjk7lhfe" path="res://graphics/misc/bar back.png" id="2_ptd3p"]
 [ext_resource type="Texture2D" uid="uid://fbw2qqing37s" path="res://graphics/misc/bar.png" id="3_77r1l"]
 [ext_resource type="Texture2D" uid="uid://dy1anxtp3eihx" path="res://graphics/misc/magic icon.png" id="4_su7nj"]
+[ext_resource type="Texture2D" uid="uid://bvdtyhcd6g5p" path="res://graphics/misc/coin icon.png" id="6_i6y5d"]
+[ext_resource type="FontFile" uid="uid://cbr7sympwl6vg" path="res://graphics/GrapeSoda.ttf" id="7_aiq1n"]
 
 [node name="user interface" type="CanvasLayer"]
 script = ExtResource("1_eiefc")
@@ -53,3 +55,23 @@ texture_under = ExtResource("2_ptd3p")
 texture_progress = ExtResource("3_77r1l")
 tint_under = Color(0, 1, 1, 1)
 tint_progress = Color(0, 1, 1, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_i6y5d")
+expand_mode = 2
+
+[node name="coin counter" type="Label" parent="MarginContainer2/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_aiq1n")
+theme_override_font_sizes/font_size = 36
+text = "0 coins"

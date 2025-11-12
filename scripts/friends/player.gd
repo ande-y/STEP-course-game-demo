@@ -76,7 +76,7 @@ func movingAnimation():
 
 func takeDamage(dmg: int, dir: Vector2):
 	Globals.health -= dmg
-	knockback = 300 * dir.x
+	knockback = (int)(300 * dir.x)
 	print("ouch " + str(Globals.health))
 
 func _on_energy_regeneration_timeout() -> void:
@@ -84,3 +84,19 @@ func _on_energy_regeneration_timeout() -> void:
 		Globals.energy += 2
 	else:
 		Globals.energy = 100
+
+func _on_hazard_detector_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+	var tileMap: TileMapLayer = body
+	var currentTile = tileMap.get_coords_for_body_rid(body_rid)
+	var data = tileMap.get_cell_tile_data(currentTile)
+	var damage = data.get_custom_data("hazard")
+	takeDamage(damage, Vector2.ZERO)
+	
+	
+	
+	
+	
+	
+	
+	
+	

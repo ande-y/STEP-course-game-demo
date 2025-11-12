@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name turret
 
 signal shoot
+signal dropLoot
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active: bool = false
@@ -9,6 +10,7 @@ var canShoot: bool = true
 
 var health: int
 var damage: int
+var coins: int
 
 func _process(delta: float) -> void:
 	if !is_on_floor():
@@ -23,6 +25,7 @@ func _process(delta: float) -> void:
 func takeDamage(dmg: int):
 	health -= dmg
 	if health <= 0:
+		dropLoot.emit(global_position, coins)
 		$AnimationPlayer.play("death")
 
 func _on_aggression_zone_body_entered(body: Node2D) -> void:
