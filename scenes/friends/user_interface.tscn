@@ -75,3 +75,20 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("7_aiq1n")
 theme_override_font_sizes/font_size = 36
 text = "0 coins"
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -130.0
+offset_bottom = 66.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="time" type="Label" parent="MarginContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_aiq1n")
+theme_override_font_sizes/font_size = 36
+text = "00:00"

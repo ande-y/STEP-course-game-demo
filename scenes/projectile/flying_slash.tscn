@@ -1,0 +1,157 @@
+[gd_scene load_steps=18 format=3 uid="uid://i5yw3480eb2l"]
+
+[ext_resource type="PackedScene" uid="uid://csq6qg83o83cr" path="res://scenes/projectile/projectile.tscn" id="1_t6djh"]
+[ext_resource type="Script" path="res://scripts/projectiles/flying_slash.gd" id="2_uev3o"]
+[ext_resource type="Texture2D" uid="uid://vd6n6fv64xid" path="res://graphics/misc/flying slash.png" id="2_wli8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i680c"]
+size = Vector2(18, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dad1"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7gxx"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxglx"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0h86r"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d53r"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(0, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vap7"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(32, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhkam"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(64, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxpmu"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(96, 64, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb78l"]
+atlas = ExtResource("2_wli8v")
+region = Rect2(128, 64, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_60nhy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dad1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7gxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxglx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0h86r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d53r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vap7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhkam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxpmu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tb78l")
+}],
+"loop": false,
+"name": &"poof",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_517et"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"poof"]
+}
+
+[sub_resource type="Animation" id="Animation_qtqly"]
+resource_name = "poof"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"poof"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4b64m"]
+_data = {
+"RESET": SubResource("Animation_517et"),
+"poof": SubResource("Animation_qtqly")
+}
+
+[node name="flying slash" instance=ExtResource("1_t6djh")]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource("2_uev3o")
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(7, 2)
+shape = SubResource("RectangleShape2D_i680c")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_60nhy")
+animation = &"poof"
+frame = 4
+frame_progress = 1.0
+
+[node name="PointLight2D" parent="." index="2"]
+color = Color(1, 0, 0, 1)
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_4b64m")
+}

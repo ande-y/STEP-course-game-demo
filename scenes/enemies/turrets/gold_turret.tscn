@@ -1,0 +1,189 @@
+[gd_scene load_steps=17 format=3 uid="uid://dtysvltywtwn8"]
+
+[ext_resource type="PackedScene" uid="uid://vlnatobsael1" path="res://scenes/enemies/turrets/turret.tscn" id="1_x53ar"]
+[ext_resource type="Script" path="res://scripts/enemies/turret/gold_turret.gd" id="2_myhft"]
+[ext_resource type="Texture2D" uid="uid://bdtc72sfg34n2" path="res://graphics/enemy/gold turret.png" id="3_5jcs2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvr4j"]
+size = Vector2(56, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdi8a"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srdxv"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgrth"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f68r"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qw4ce"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1qvo"]
+atlas = ExtResource("3_5jcs2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ecbbg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdi8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srdxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mgrth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f68r")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qw4ce")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1qvo")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7oleu"]
+radius = 351.0
+height = 1748.0
+
+[sub_resource type="Animation" id="Animation_ph5em"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"death"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gd6ut"]
+resource_name = "death"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"death"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ihnxn"]
+resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"hurt", &"default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nkita"]
+_data = {
+"RESET": SubResource("Animation_ph5em"),
+"death": SubResource("Animation_gd6ut"),
+"hurt": SubResource("Animation_ihnxn")
+}
+
+[node name="gold turret" instance=ExtResource("1_x53ar")]
+script = ExtResource("2_myhft")
+
+[node name="hitbox" parent="." index="0"]
+shape = SubResource("RectangleShape2D_cvr4j")
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_ecbbg")
+animation = &"death"
+autoplay = "default"
+
+[node name="left gun" parent="." index="2"]
+position = Vector2(-28, 0)
+
+[node name="right gun" parent="." index="3"]
+position = Vector2(28, 0)
+
+[node name="CollisionShape2D" parent="aggression zone" index="0"]
+shape = SubResource("CapsuleShape2D_7oleu")
+
+[node name="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_nkita")
+}

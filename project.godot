@@ -12,18 +12,27 @@ config_version=5
 
 config/name="project main"
 run/main_scene="res://scenes/levels/forest_level.tscn"
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://graphics/misc/coin icon.png"
+config/windows_native_icon="res://graphics/misc/coin icon.ico"
 
 [autoload]
 
 Globals="*res://scripts/globals.gd"
 LevelTransition="*res://scenes/levels/level_transition.tscn"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [global_group]
 
-enemies=""
 "enemies can shoot"=""
+"drop loot"=""
+"enemies can slash"=""
+"environment hazard summoner"=""
+"enemies can summon"=""
 
 [input]
 
@@ -70,3 +79,7 @@ LeftClick={
 2d_physics/layer_8="environment"
 2d_physics/layer_9="item"
 2d_physics/layer_10="harzard"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

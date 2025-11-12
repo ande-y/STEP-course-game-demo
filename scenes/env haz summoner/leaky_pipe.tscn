@@ -1,0 +1,126 @@
+[gd_scene load_steps=13 format=3 uid="uid://n5jb1a4ex8yq"]
+
+[ext_resource type="PackedScene" uid="uid://c11wjcttpjn57" path="res://scenes/env haz summoner/env haz summoner.tscn" id="1_6y2pc"]
+[ext_resource type="Script" path="res://scripts/env haz summoner/leaky_pipe.gd" id="2_j3i1w"]
+[ext_resource type="Texture2D" uid="uid://c2m7ohngfessi" path="res://graphics/environment/leaky pipe.png" id="3_v6teu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpypj"]
+atlas = ExtResource("3_v6teu")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_723bo"]
+atlas = ExtResource("3_v6teu")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2n8jp"]
+atlas = ExtResource("3_v6teu")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2sea"]
+atlas = ExtResource("3_v6teu")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ghpx5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpypj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_723bo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2n8jp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2sea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_723bo")
+}],
+"loop": false,
+"name": &"drip",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l3jvq"]
+size = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_iux4g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"drip"]
+}
+
+[sub_resource type="Animation" id="Animation_yagqu"]
+resource_name = "drip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"drip", &"default"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"drip"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dvb1q"]
+_data = {
+"RESET": SubResource("Animation_iux4g"),
+"drip": SubResource("Animation_yagqu")
+}
+
+[node name="leaky pipe" instance=ExtResource("1_6y2pc")]
+script = ExtResource("2_j3i1w")
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ghpx5")
+animation = &"drip"
+autoplay = "default"
+frame = 1
+frame_progress = 0.558207
+
+[node name="hitbox" parent="." index="1"]
+shape = SubResource("RectangleShape2D_l3jvq")
+
+[node name="tip" parent="." index="2"]
+position = Vector2(0, 16)
+
+[node name="AnimationPlayer" parent="." index="4"]
+libraries = {
+"": SubResource("AnimationLibrary_dvb1q")
+}
+
+[node name="CollisionShape2D" parent="active zone" index="0"]
+position = Vector2(0, -235)

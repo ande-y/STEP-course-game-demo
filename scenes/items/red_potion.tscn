@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://02q32k0r7qj2"]
+
+[ext_resource type="PackedScene" uid="uid://b38y8mparrqb2" path="res://scenes/items/item.tscn" id="1_3h1g6"]
+[ext_resource type="Script" path="res://scripts/items/red_potion.gd" id="2_8i8hq"]
+[ext_resource type="Texture2D" uid="uid://bcg7qyaixp1r" path="res://graphics/misc/potions.png" id="3_gsp04"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r08lx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2k1cw"]
+atlas = ExtResource("3_gsp04")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y32lo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2k1cw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqhcy"]
+radius = 17.1172
+
+[node name="red potion" instance=ExtResource("1_3h1g6")]
+script = ExtResource("2_8i8hq")
+
+[node name="hitbox" parent="." index="0"]
+shape = SubResource("RectangleShape2D_r08lx")
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_y32lo")
+
+[node name="CollisionShape2D" parent="collection area" index="0"]
+shape = SubResource("CircleShape2D_yqhcy")

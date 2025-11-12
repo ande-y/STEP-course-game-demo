@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://vlnatobsael1"]
 
-[ext_resource type="Script" path="res://scripts/enemies/turret.gd" id="1_ouu8f"]
+[ext_resource type="Script" path="res://scripts/enemies/turret/turret.gd" id="1_ouu8f"]
 
-[node name="turret" type="CharacterBody2D" groups=["enemies", "enemies can shoot"]]
+[node name="turret" type="CharacterBody2D" groups=["drop loot", "enemies can shoot"]]
 collision_layer = 64
 collision_mask = 201
 script = ExtResource("1_ouu8f")
@@ -16,6 +16,7 @@ script = ExtResource("1_ouu8f")
 [node name="right gun" type="Marker2D" parent="."]
 
 [node name="aggression zone" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="aggression zone"]
 rotation = 4.71239

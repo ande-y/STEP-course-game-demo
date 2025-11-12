@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://csynmnnlx3w1k"]
+
+[ext_resource type="PackedScene" uid="uid://b38y8mparrqb2" path="res://scenes/items/item.tscn" id="1_or260"]
+[ext_resource type="Script" path="res://scripts/items/purple_potion.gd" id="2_w7ohk"]
+[ext_resource type="Texture2D" uid="uid://bcg7qyaixp1r" path="res://graphics/misc/potions.png" id="3_2aq8p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_883cb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vdrr"]
+atlas = ExtResource("3_2aq8p")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dxb2n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vdrr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mnlor"]
+radius = 17.0294
+
+[node name="purple potion" instance=ExtResource("1_or260")]
+script = ExtResource("2_w7ohk")
+
+[node name="hitbox" parent="." index="0"]
+shape = SubResource("RectangleShape2D_883cb")
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_dxb2n")
+
+[node name="CollisionShape2D" parent="collection area" index="0"]
+shape = SubResource("CircleShape2D_mnlor")

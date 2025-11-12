@@ -1,0 +1,151 @@
+[gd_scene load_steps=15 format=3 uid="uid://cdgairylkf43p"]
+
+[ext_resource type="PackedScene" uid="uid://csq6qg83o83cr" path="res://scenes/projectile/projectile.tscn" id="1_ha7rd"]
+[ext_resource type="Script" path="res://scripts/projectiles/lava_droplet.gd" id="2_wqifv"]
+[ext_resource type="Texture2D" uid="uid://2lcaeq8p5jav" path="res://graphics/misc/lava droplet.png" id="3_kiaca"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w18b1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_khl2l"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey7rf"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v74ex"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grek1"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eaam3"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtpyb"]
+atlas = ExtResource("3_kiaca")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rrxic"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_khl2l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ey7rf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v74ex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grek1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eaam3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtpyb")
+}],
+"loop": false,
+"name": &"poof",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_poj11"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"poof"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_f5u07"]
+resource_name = "poof"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"poof"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PointLight2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ole0e"]
+_data = {
+"RESET": SubResource("Animation_poj11"),
+"poof": SubResource("Animation_f5u07")
+}
+
+[node name="lava droplet" instance=ExtResource("1_ha7rd")]
+script = ExtResource("2_wqifv")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_w18b1")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_rrxic")
+animation = &"poof"
+
+[node name="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_ole0e")
+}

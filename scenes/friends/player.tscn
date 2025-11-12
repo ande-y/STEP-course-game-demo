@@ -1,12 +1,27 @@
-[gd_scene load_steps=22 format=3 uid="uid://dgxydgte774v0"]
+[gd_scene load_steps=25 format=3 uid="uid://dgxydgte774v0"]
 
 [ext_resource type="Script" path="res://scripts/friends/player.gd" id="1_xrrts"]
 [ext_resource type="Texture2D" uid="uid://bqs4u3nyyonag" path="res://graphics/friends/character.png" id="2_2visi"]
 [ext_resource type="Texture2D" uid="uid://ca0kgkqefeyxa" path="res://graphics/weapons/wand.png" id="3_ej53j"]
-[ext_resource type="AudioStream" uid="uid://bq0e60jq8c4mf" path="res://audio/cartoon-jump-6462.mp3" id="4_2es7g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hhoi4"]
 size = Vector2(28, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36dus"]
+atlas = ExtResource("2_2visi")
+region = Rect2(0, 192, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7smdr"]
+atlas = ExtResource("2_2visi")
+region = Rect2(96, 192, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p64bn"]
+atlas = ExtResource("2_2visi")
+region = Rect2(192, 192, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_262yd"]
+atlas = ExtResource("2_2visi")
+region = Rect2(288, 192, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udtcr"]
 atlas = ExtResource("2_2visi")
@@ -42,6 +57,23 @@ region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_edc7d"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36dus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7smdr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p64bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_262yd")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_udtcr")
@@ -89,7 +121,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"moving",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_um7e3"]
@@ -141,7 +173,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfq0b"]
-size = Vector2(34, 74)
+size = Vector2(30, 63)
 
 [node name="player" type="CharacterBody2D"]
 collision_mask = 245
@@ -155,6 +187,7 @@ shape = SubResource("RectangleShape2D_hhoi4")
 
 [node name="sprite" type="AnimatedSprite2D" parent="o"]
 sprite_frames = SubResource("SpriteFrames_edc7d")
+animation = &"moving"
 
 [node name="wand" type="AnimatedSprite2D" parent="o"]
 position = Vector2(34, 8)
@@ -163,27 +196,39 @@ animation = &"flick"
 autoplay = "default"
 
 [node name="tip of wand" type="Marker2D" parent="o/wand"]
-position = Vector2(8, 0)
 
 [node name="hazard detector" type="Area2D" parent="o"]
 collision_layer = 0
 collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o/hazard detector"]
-position = Vector2(0, 10)
+position = Vector2(0, 14.5)
 shape = SubResource("RectangleShape2D_lfq0b")
-debug_color = Color(0, 0.63, 0.504, 0.156863)
+debug_color = Color(0.951435, 5.19812e-06, 0.584395, 0.156863)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="energy regeneration" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.33
 autostart = true
+
+[node name="hazard timer" type="Timer" parent="."]
+
+[node name="invincibility frames" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="shot cooldown" type="Timer" parent="."]
+wait_time = 0.275
+one_shot = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(0, 14)
-stream = ExtResource("4_2es7g")
 volume_db = -21.0
 
+[connection signal="body_exited" from="o/hazard detector" to="." method="_on_hazard_detector_body_exited"]
 [connection signal="body_shape_entered" from="o/hazard detector" to="." method="_on_hazard_detector_body_shape_entered"]
 [connection signal="timeout" from="energy regeneration" to="." method="_on_energy_regeneration_timeout"]
+[connection signal="timeout" from="hazard timer" to="." method="_on_hazard_timer_timeout"]
+[connection signal="timeout" from="invincibility frames" to="." method="_on_invincibility_frames_timeout"]
+[connection signal="timeout" from="shot cooldown" to="." method="_on_shot_cooldown_timeout"]

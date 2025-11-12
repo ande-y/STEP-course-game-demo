@@ -6,7 +6,11 @@ extends CanvasLayer
 
 func _ready() -> void:
 	Globals.connect("updateUI", updateEverything)
+	Globals.connect("updateTime", updateTime)
 	updateEverything()
+	
+func updateTime(strMin: String, strSec: String):
+	$MarginContainer3/time.text = strMin + ":" + strSec
 	
 func updateEverything():
 	health_bar.value = Globals.health

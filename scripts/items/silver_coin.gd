@@ -1,4 +1,4 @@
-extends item
+extends coin
 
 func _ready() -> void:
 	value = 3

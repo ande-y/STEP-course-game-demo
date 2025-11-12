@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://csjefkxjrno3p"]
+
+[ext_resource type="Texture2D" uid="uid://cifs8eech1xcg" path="res://graphics/enemy/final boss.png" id="1_eko11"]
+[ext_resource type="Script" path="res://scripts/enemies/boss_head.gd" id="1_rwlld"]
+[ext_resource type="PackedScene" uid="uid://c0n066sqt32o" path="res://scenes/enemies/boss_hand.tscn" id="3_sbcl0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrom"]
+size = Vector2(139.25, 153)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqlvi"]
+atlas = ExtResource("1_eko11")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lms0o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqlvi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opdwt"]
+atlas = ExtResource("1_eko11")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cm3kd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opdwt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="boss head" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 161
+script = ExtResource("1_rwlld")
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0.375, -3.5)
+shape = SubResource("RectangleShape2D_onrom")
+
+[node name="head" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lms0o")
+autoplay = "default"
+
+[node name="jaw" type="AnimatedSprite2D" parent="head"]
+position = Vector2(0, 3)
+sprite_frames = SubResource("SpriteFrames_cm3kd")
+
+[node name="boss hand left" parent="." instance=ExtResource("3_sbcl0")]
+position = Vector2(-262, 58)
+
+[node name="boss hand right" parent="." instance=ExtResource("3_sbcl0")]
+position = Vector2(275, 56)
+scale = Vector2(-1, 1)
+
+[node name="left" type="Timer" parent="."]
+autostart = true
+
+[node name="right" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="left" to="." method="_on_left_timeout"]
+[connection signal="timeout" from="right" to="." method="_on_right_timeout"]

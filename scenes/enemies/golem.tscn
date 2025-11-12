@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dbw6weyv2iaha" path="res://graphics/weapons/sword.png" id="3_4v1nw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lt2hh"]
-size = Vector2(61.25, 100)
+size = Vector2(56, 92)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rc4la"]
 atlas = ExtResource("2_727ye")
@@ -125,15 +125,16 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2uxa"]
-size = Vector2(123, 131)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_282lp"]
+radius = 65.5
+height = 159.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_veiwq"]
 radius = 112.0
 height = 1032.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q8rmg"]
-size = Vector2(87, 116)
+size = Vector2(109, 140)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mbdmu"]
 atlas = ExtResource("3_4v1nw")
@@ -179,7 +180,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -238,24 +239,10 @@ tracks/0/path = NodePath("o/damage zone/CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.233333, 0.733333),
+"times": PackedFloat32Array(0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"attackFinish"
-}]
 }
 
 [sub_resource type="Animation" id="Animation_47g3w"]
@@ -311,7 +298,8 @@ _data = {
 script = ExtResource("2_kf3gg")
 
 [node name="CollisionShape2D" parent="." index="0"]
-position = Vector2(1, 10)
+visible = true
+position = Vector2(0, 14)
 shape = SubResource("RectangleShape2D_lt2hh")
 
 [node name="sprite" parent="o" index="0"]
@@ -319,13 +307,17 @@ sprite_frames = SubResource("SpriteFrames_y3nla")
 
 [node name="CollisionShape2D" parent="o/damage zone" index="0"]
 position = Vector2(51.5, -5.5)
-shape = SubResource("RectangleShape2D_p2uxa")
+shape = SubResource("CapsuleShape2D_282lp")
 
 [node name="CollisionShape2D" parent="o/aggression zone" index="0"]
 shape = SubResource("CapsuleShape2D_veiwq")
 
+[node name="attack zone" parent="o" index="3"]
+visible = true
+
 [node name="CollisionShape2D" parent="o/attack zone" index="0"]
-position = Vector2(33.5, 2)
+visible = false
+position = Vector2(44.5, -4)
 shape = SubResource("RectangleShape2D_q8rmg")
 
 [node name="weapon" parent="o" index="4"]

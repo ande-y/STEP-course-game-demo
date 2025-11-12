@@ -1,0 +1,189 @@
+[gd_scene load_steps=11 format=3 uid="uid://c0n066sqt32o"]
+
+[ext_resource type="Texture2D" uid="uid://cifs8eech1xcg" path="res://graphics/enemy/final boss.png" id="1_nxwbe"]
+[ext_resource type="Script" path="res://scripts/enemies/boss_hand.gd" id="1_x83ew"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03kbl"]
+atlas = ExtResource("1_nxwbe")
+region = Rect2(0, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yokps"]
+atlas = ExtResource("1_nxwbe")
+region = Rect2(192, 192, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gh1i1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03kbl")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yokps")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bm42"]
+size = Vector2(95, 96)
+
+[sub_resource type="Animation" id="Animation_r5eqx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"closed"]
+}
+
+[sub_resource type="Animation" id="Animation_0kjxt"]
+resource_name = "shoot"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"opened", &"closed"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5, 1.76667, 2, 2.26667, 2.5, 2.76667, 3, 3.26667, 3.5, 3.76667, 4, 4.26667, 4.5, 4.76667, 5, 5.26667, 5.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}, {
+"args": [],
+"method": &"signalShoot"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_u8ao0"]
+resource_name = "summon"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 2.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [&"opened", &"closed", &"opened", &"closed"]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"signalSummon"
+}, {
+"args": [],
+"method": &"signalSummon"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rucq5"]
+_data = {
+"RESET": SubResource("Animation_r5eqx"),
+"shoot": SubResource("Animation_0kjxt"),
+"summon": SubResource("Animation_u8ao0")
+}
+
+[node name="boss hand" type="CharacterBody2D" groups=["enemies can shoot", "enemies can summon"]]
+collision_layer = 4
+collision_mask = 161
+script = ExtResource("1_x83ew")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gh1i1")
+animation = &"closed"
+autoplay = "closed"
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(34.5, 38)
+shape = SubResource("RectangleShape2D_2bm42")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rucq5")
+}
+
+[node name="palm" type="Marker2D" parent="."]
+position = Vector2(33, 44)

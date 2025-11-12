@@ -1,0 +1,92 @@
+[gd_scene load_steps=13 format=3 uid="uid://bynpxno34bheq"]
+
+[ext_resource type="PackedScene" uid="uid://c8owxej6tmfh4" path="res://scenes/obstacles/obstacle.tscn" id="1_fai7a"]
+[ext_resource type="Script" path="res://scripts/obstacles/crystal.gd" id="2_1hesh"]
+[ext_resource type="Texture2D" uid="uid://b840odkjuhkda" path="res://graphics/environment/red krystal.png" id="3_caeqw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2qkt"]
+size = Vector2(47, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtbai"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op0gv"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3ktc"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8uqf"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmgjv"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgjkj"]
+atlas = ExtResource("3_caeqw")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ifq7x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtbai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_op0gv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3ktc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8uqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmgjv")
+}],
+"loop": false,
+"name": &"break",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bgjkj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w5jno"]
+radius = 798.003
+
+[node name="crystal" groups=["enemies can slash"] instance=ExtResource("1_fai7a")]
+script = ExtResource("2_1hesh")
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_e2qkt")
+
+[node name="sprite" parent="." index="1"]
+position = Vector2(-1, -12)
+sprite_frames = SubResource("SpriteFrames_ifq7x")
+autoplay = "default"
+
+[node name="attack cooldown" type="Timer" parent="." index="3"]
+wait_time = 6.0
+
+[node name="aggression zone" type="Area2D" parent="." index="4"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aggression zone" index="0"]
+shape = SubResource("CircleShape2D_w5jno")
+debug_color = Color(0.7, 0.653333, 0, 0.117647)
+
+[connection signal="timeout" from="attack cooldown" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="aggression zone" to="." method="_on_aggression_zone_body_entered"]
+[connection signal="body_exited" from="aggression zone" to="." method="_on_aggression_zone_body_exited"]

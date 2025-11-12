@@ -118,11 +118,11 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eurmh"]
-size = Vector2(39, 36)
+size = Vector2(42, 40)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7catd"]
-radius = 109.0
-height = 392.0
+radius = 248.0
+height = 876.0
 
 [sub_resource type="Animation" id="Animation_rpoat"]
 length = 0.001
@@ -210,10 +210,11 @@ shape = SubResource("CircleShape2D_xp1wx")
 sprite_frames = SubResource("SpriteFrames_xtnt8")
 
 [node name="CollisionShape2D" parent="o/damage zone" index="0"]
-position = Vector2(0, 1)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_eurmh")
 
 [node name="CollisionShape2D" parent="o/aggression zone" index="0"]
+rotation = -1.5708
 shape = SubResource("CapsuleShape2D_7catd")
 
 [node name="AnimationPlayer" parent="." index="2"]

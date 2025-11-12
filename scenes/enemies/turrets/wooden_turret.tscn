@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://biwgqtidjf2sv"]
+[gd_scene load_steps=18 format=3 uid="uid://biwgqtidjf2sv"]
 
-[ext_resource type="PackedScene" uid="uid://vlnatobsael1" path="res://scenes/enemies/turret.tscn" id="1_4qy1r"]
+[ext_resource type="PackedScene" uid="uid://vlnatobsael1" path="res://scenes/enemies/turrets/turret.tscn" id="1_4qy1r"]
 [ext_resource type="Texture2D" uid="uid://bhaotmocl3ghj" path="res://graphics/enemy/wood turret.png" id="2_3jo2n"]
-[ext_resource type="Script" path="res://scripts/enemies/wooden_turret.gd" id="2_saner"]
+[ext_resource type="Script" path="res://scripts/enemies/turret/wooden_turret.gd" id="2_saner"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_442sp"]
 size = Vector2(46.5, 63)
@@ -75,8 +75,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h8iy7"]
-radius = 225.0
-height = 1120.0
+radius = 295.0
+height = 1308.0
 
 [sub_resource type="Animation" id="Animation_7632d"]
 length = 0.001
@@ -122,10 +122,27 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_0q0ch"]
+resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"hurt", &"default"]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a16fe"]
 _data = {
 "RESET": SubResource("Animation_7632d"),
-"death": SubResource("Animation_st74s")
+"death": SubResource("Animation_st74s"),
+"hurt": SubResource("Animation_0q0ch")
 }
 
 [node name="wooden turret" instance=ExtResource("1_4qy1r")]

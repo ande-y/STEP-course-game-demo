@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://c11wjcttpjn57"]
+
+[ext_resource type="Script" path="res://scripts/env haz summoner/env haz summoner.gd" id="1_mn0qi"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fuw04"]
+radius = 694.0
+height = 2386.0
+
+[node name="env haz summoner" type="StaticBody2D" groups=["environment hazard summoner"]]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_mn0qi")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+
+[node name="tip" type="Marker2D" parent="."]
+
+[node name="cooldown" type="Timer" parent="."]
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../tip")
+
+[node name="active zone" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, 900)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="active zone"]
+shape = SubResource("CapsuleShape2D_fuw04")
+
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]
